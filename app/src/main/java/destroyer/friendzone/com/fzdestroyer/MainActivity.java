@@ -45,8 +45,8 @@ public class MainActivity extends FragmentActivity
         }
         */
     }
-    
-    // nowy komentarz
+
+    // nowy komentarz ciekawe czy przejdzie
 
     @Override
     protected void onResume()
