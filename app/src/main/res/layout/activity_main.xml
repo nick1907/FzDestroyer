@@ -13,13 +13,4 @@
         android:layout_height="wrap_content"
         android:id="@+id/logowanie_fragment"
         android:name="destroyer.friendzone.com.fzdestroyer.Logowanie"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/przycisk_logowania"
-        android:layout_below="@+id/logowanie_fragment"
-        android:id="@+id/menu_zaloguj"
-        android:gravity="center"
-        android:onClick="zalogujSie" />
 </RelativeLayout>

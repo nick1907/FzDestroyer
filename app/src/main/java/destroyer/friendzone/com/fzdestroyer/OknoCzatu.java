@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+// to bedzie fragment zajmujacy sie obsluga czatu
 public class OknoCzatu extends Fragment
 {
     public OknoCzatu()

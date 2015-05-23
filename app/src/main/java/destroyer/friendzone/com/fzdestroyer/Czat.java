@@ -7,10 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.facebook.messenger.MessengerUtils;
-import com.facebook.messenger.MessengerThreadParams;
-import com.facebook.messenger.ShareToMessengerParams;
 
+// klasa zajmujaca sie calym czatem
 public class Czat extends FragmentActivity
 {
     @Override

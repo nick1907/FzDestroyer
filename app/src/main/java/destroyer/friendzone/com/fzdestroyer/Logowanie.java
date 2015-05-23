@@ -57,6 +57,7 @@ public class Logowanie extends Fragment
     {
         super.onPause();
 
+        // zapisanie w pamieci urzadzenia ustawien programu
         SharedPreferences settings = getActivity().getSharedPreferences("PREF", 0);
         SharedPreferences.Editor edytor = settings.edit();
         edytor.putBoolean("zalogowany", zalogowany);
@@ -151,21 +152,10 @@ public class Logowanie extends Fragment
         @Override
         protected String doInBackground(String... params)
         {
-            /*
-            List<NameValuePair> lista = new ArrayList<NameValuePair>();
-            lista.add(new BasicNameValuePair("login", profil.getId()));
-            lista.add(new BasicNameValuePair("plec", "0"));
-            lista.add(new BasicNameValuePair("data_urodzenia", "12-02-1990"));
-            lista.add(new BasicNameValuePair("orientacja", "1"));
-            lista.add(new BasicNameValuePair("zagieg", "90"));
-            lista.add(new BasicNameValuePair("miejscowosc", "Wrocław"));
-            lista.add(new BasicNameValuePair("email", profil.getId()));
-            lista.add(new BasicNameValuePair("haslo", "supertajne"));
-
-            */
-
+            // utworzenie zapytania do bazy danych i jego wykoanie
             try
             {
+                // zapytanie do bazy danych (utworzenie nowego uzytkownika programu)
                 String data = URLEncoder.encode("login", "UTF-8") + "=" + URLEncoder.encode(profil.getId(), "UTF-8");
                 data += "&" + URLEncoder.encode("plec", "UTF-8") + "=" + URLEncoder.encode("0", "UTF-8");
                 data += "&" + URLEncoder.encode("data_urodzenia", "UTF-8") + "=" + URLEncoder.encode("12-02-1990", "UTF-8");
@@ -183,6 +173,7 @@ public class Logowanie extends Fragment
                     conn.setDoOutput(true);
                     OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
 
+                    // wyslij zapytanie do bazy danych
                     String text = "";
                     BufferedReader reader = null;
                     wr.write(data);
@@ -192,6 +183,7 @@ public class Logowanie extends Fragment
                     StringBuilder sb = new StringBuilder();
                     String line = null;
 
+                    // odczytaj odpowiedz serwera
                     while ((line = reader.readLine()) != null)
                         sb.append(new StringBuilder(line + "\n"));
 
@@ -204,27 +196,7 @@ public class Logowanie extends Fragment
             {
                 e.printStackTrace();
             }
-//            JSONObject json = jsonParser.makeHttpRequest(adres, "POST", lista);
 
-            /*
-            try
-            {
-                int success = json.getInt("success");
-
-                if (success == 1)
-                {
-                    Toast.makeText(getActivity(), "Udalo sie wyslac dane.", Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    Toast.makeText(getActivity(), "Nie udalo sie wyslac danych.", Toast.LENGTH_LONG).show();
-                }
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-            */
             return null;
         }
     }

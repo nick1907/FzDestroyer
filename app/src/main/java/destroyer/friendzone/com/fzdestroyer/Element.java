@@ -1,8 +1,6 @@
 package destroyer.friendzone.com.fzdestroyer;
 
-/**
- * Created by brzydki on 05/05/15.
- */
+// klasa przedstawiajaca pojedynczy element listy
 public class Element
 {
     String imie;

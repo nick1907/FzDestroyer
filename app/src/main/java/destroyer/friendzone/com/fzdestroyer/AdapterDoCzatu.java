@@ -9,9 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-/**
- * Created by brzydki on 05/05/15.
- */
+// adapter do listy typu ListView
 public class AdapterDoCzatu extends ArrayAdapter<Element>
 {
     private Context kontekst;
