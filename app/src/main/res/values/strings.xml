@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">FzDestroyer</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_logowanie">Logowanie</string>
+    <string name="podaj_email">Podaj swój adres e-mail do facebooka:</string>
+    <string name="podaj_haslo">Hasło:</string>
+    <string name="przycisk_logowania">Zaloguj</string>
+    <string name="title_activity_czat">Czat</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="facebook_app_id">1234567890</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="wyslij_wiadomosc">Wyślij</string>
+    <string name="app_id">1426928514282008</string>
+</resources>
