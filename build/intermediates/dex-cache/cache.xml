@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/home/ehhh/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-android/1.2.0/6ee2953ccf51ce72b6d548c30c4633b99eb4f9dd/bolts-android-1.2.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="6ee2953ccf51ce72b6d548c30c4633b99eb4f9dd">
+        <dex dex="/home/ehhh/StudioProjects/FzDestroyer/app/build/intermediates/pre-dexed/debug/bolts-android-1.2.0-d0c1eb28e3c2905de54b03a7f576df31b2be7c66.jar" />
+    </item>
+    <item
+        jar="/home/ehhh/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/22.0.0/support-annotations-22.0.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="685d0b2c590447e85284ed84712cb363ba04eff8">
+        <dex dex="/home/ehhh/StudioProjects/FzDestroyer/app/build/intermediates/pre-dexed/debug/support-annotations-22.0.0-16fdba9e1b21017d96e9f74cb57e2d1e97b1b7c5.jar" />
+    </item>
+    <item
+        jar="/home/ehhh/StudioProjects/FzDestroyer/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
+        <dex dex="/home/ehhh/StudioProjects/FzDestroyer/app/build/intermediates/pre-dexed/debug/classes-c5cb5dc0ddcebf4a0c7e256ce133edaf38676334.jar" />
+    </item>
+    <item
+        jar="/home/ehhh/StudioProjects/FzDestroyer/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.1.0/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="a78bfd2ec508b123ee7c03f4006ba7996ef9a8dc">
+        <dex dex="/home/ehhh/StudioProjects/FzDestroyer/app/build/intermediates/pre-dexed/debug/classes-19781bc3f8fd473b1e60d00686c0983981d21bf9.jar" />
+    </item>
+    <item
+        jar="/home/ehhh/StudioProjects/FzDestroyer/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/libs/internal_impl-22.0.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="b5b92f469d515a13d778900f6d50c03d12f35504">
+        <dex dex="/home/ehhh/StudioProjects/FzDestroyer/app/build/intermediates/pre-dexed/debug/internal_impl-22.0.0-3d9425ae22dfd60df83bc4ceb86e6ce5df223c31.jar" />
+    </item>
+    <item
+        jar="/home/ehhh/StudioProjects/FzDestroyer/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="d84409890828e07d344a3b9b1da545dba9897b51">
+        <dex dex="/home/ehhh/StudioProjects/FzDestroyer/app/build/intermediates/pre-dexed/debug/classes-bb020abe08df5352880998e01ba209f1263fc205.jar" />
+    </item>
+
+</items>
