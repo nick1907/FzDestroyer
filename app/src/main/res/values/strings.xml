@@ -13,4 +13,19 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="wyslij_wiadomosc">Wyślij</string>
     <string name="app_id">1426928514282008</string>
+    <string name="title_activity_menu">Menu</string>
+    <string name="czat">Czat</string>
+    <string name="ustawienia">Ustawienia</string>
+    <string name="pomoc">Pomoc</string>
+    <string name="info">Info</string>
+    <string name="title_activity_ustawienia">Ustawienia</string>
+    <string name="opis">Opis:</string>
+    <string name="orientacja">Orientacja:</string>
+    <string name="dzien_urodzenia">Data urodzenia:</string>
+    <string name="plec">Płeć:</string>
+    <string name="zdjecie">Zdjęcie:</string>
+    <string name="miejscowosc">Miejscowość:</string>
+    <string name="zapisz_zmiany">Zapisz zmiany</string>
+    <string name="data_urodzenia">Data urodzenia:</string>
+    <string name="zasieg">Zasięg:</string>
 </resources>

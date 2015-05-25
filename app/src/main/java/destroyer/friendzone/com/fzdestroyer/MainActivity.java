@@ -1,7 +1,6 @@
 package destroyer.friendzone.com.fzdestroyer;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -9,7 +8,6 @@ import android.support.v4.app.FragmentTransaction;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-
 
 // glowna klasa zajmujaca sie logowaniem i opcjami programu
 public class MainActivity extends FragmentActivity
@@ -26,7 +24,7 @@ public class MainActivity extends FragmentActivity
         FacebookSdk.sdkInitialize(this);
 
         // tworzenie w pamieci urzadzenia ustawien programu
-        SharedPreferences settings =getSharedPreferences("PREF", 0);
+//        SharedPreferences settings =getSharedPreferences("PREF", 0);
 
         callback = CallbackManager.Factory.create();
 

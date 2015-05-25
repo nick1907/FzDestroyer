@@ -1,7 +1,6 @@
 package destroyer.friendzone.com.fzdestroyer;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -22,31 +20,24 @@ import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.nio.Buffer;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.jar.Attributes;
 
 public class Logowanie extends Fragment
 {
-    JSONParser jsonParser = new JSONParser();
+//    JSONParser jsonParser = new JSONParser();
     ProfileTracker profileTracker;
     LoginButton loginButton;
     CallbackManager callback;
-    private FacebookCallback facebookCallback;
+//    private FacebookCallback facebookCallback;
     boolean zalogowany = false;
     Profile profil = null;
     AccessTokenTracker accessTokenTracker;
@@ -58,10 +49,10 @@ public class Logowanie extends Fragment
         super.onPause();
 
         // zapisanie w pamieci urzadzenia ustawien programu
-        SharedPreferences settings = getActivity().getSharedPreferences("PREF", 0);
-        SharedPreferences.Editor edytor = settings.edit();
-        edytor.putBoolean("zalogowany", zalogowany);
-        edytor.apply();
+//        SharedPreferences settings = getActivity().getSharedPreferences("PREF", 0);
+//        SharedPreferences.Editor edytor = settings.edit();
+//        edytor.putBoolean("zalogowany", zalogowany);
+//        edytor.apply();
     }
 
     @Override
@@ -82,6 +73,45 @@ public class Logowanie extends Fragment
                     accesToken = oldAccessToken;
             }
         };
+
+        loginButton = (LoginButton) widok.findViewById(R.id.login_button);
+
+        // nadanie wszystkich wymaganych (i nie tylko) uprawnien
+        ArrayList<String> lista_uprawnien = new ArrayList<>();
+        lista_uprawnien.add("user_friends");
+        lista_uprawnien.add("email");
+        lista_uprawnien.add("user_birthday");
+        lista_uprawnien.add("user_about_me");
+        lista_uprawnien.add("user_hometown");
+        lista_uprawnien.add("user_location");
+        lista_uprawnien.add("user_photos");
+        lista_uprawnien.add("user_relationships");
+        lista_uprawnien.add("user_status");
+        lista_uprawnien.add("read_custom_friendlists");
+        lista_uprawnien.add("read_mailbox");
+
+//        loginButton.setReadPermissions(lista_uprawnien);
+//        loginButton.setFragment(this);
+        loginButton.registerCallback(callback, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult)
+            {
+                zalogowany = true;
+                Intent intent = new Intent(getActivity(), Czat.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancel()
+            {
+            }
+
+            @Override
+            public void onError(FacebookException exception)
+            {
+                Toast.makeText(getActivity(), "Login error", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         profileTracker = new ProfileTracker()
         {
@@ -104,7 +134,7 @@ public class Logowanie extends Fragment
                 });
 
                 Bundle params = new Bundle();
-                params.putString("fields", "id,name,email");
+                params.putString("fields", "id,name,email,birthday");
                 request.setParameters(params);
                 request.executeAsync();
 
@@ -112,30 +142,6 @@ public class Logowanie extends Fragment
                 Toast.makeText(getActivity(), "Zalogowales sie.", Toast.LENGTH_LONG).show();
             }
         };
-
-        loginButton = (LoginButton) widok.findViewById(R.id.login_button);
-        loginButton.setReadPermissions("user_friends");
-        loginButton.setFragment(this);
-        loginButton.registerCallback(callback, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult)
-            {
-                zalogowany = true;
-                Intent intent = new Intent(getActivity(), Czat.class);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onCancel()
-            {
-            }
-
-            @Override
-            public void onError(FacebookException exception)
-            {
-                Toast.makeText(getActivity(), "Login error", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         return widok;
     }
@@ -158,11 +164,9 @@ public class Logowanie extends Fragment
                 // zapytanie do bazy danych (utworzenie nowego uzytkownika programu)
                 String data = URLEncoder.encode("login", "UTF-8") + "=" + URLEncoder.encode(profil.getId(), "UTF-8");
                 data += "&" + URLEncoder.encode("plec", "UTF-8") + "=" + URLEncoder.encode("0", "UTF-8");
-                data += "&" + URLEncoder.encode("data_urodzenia", "UTF-8") + "=" + URLEncoder.encode("12-02-1990", "UTF-8");
-                data += "&" + URLEncoder.encode("orientacja", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8");
                 data += "&" + URLEncoder.encode("zasieg", "UTF-8") + "=" + URLEncoder.encode("90", "UTF-8");
                 data += "&" + URLEncoder.encode("miejscowosc", "UTF-8") + "=" + URLEncoder.encode("Wrocław", "UTF-8");
-                data += "&" + URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(profil.getId(), "UTF-8");
+                data += "&" + URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode("email@email.pl", "UTF-8");
                 data += "&" + URLEncoder.encode("haslo", "UTF-8") + "=" + URLEncoder.encode("supertajne", "UTF-8");
 
                 try
@@ -174,14 +178,14 @@ public class Logowanie extends Fragment
                     OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
 
                     // wyslij zapytanie do bazy danych
-                    String text = "";
-                    BufferedReader reader = null;
+                    // String text = "";
+                    BufferedReader reader;
                     wr.write(data);
                     wr.flush();
 
                     reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                     StringBuilder sb = new StringBuilder();
-                    String line = null;
+                    String line;
 
                     // odczytaj odpowiedz serwera
                     while ((line = reader.readLine()) != null)
