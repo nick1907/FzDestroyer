@@ -31,6 +31,12 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
+// TODO
+// dodaj tak by sprawdzic czy ktos jest zalogowany czy nie
+// boolean loggedIn=false;
+// if(AccessToken.getCurrentAccessToken()!=null)
+//     loggedIn=true;
+
 public class Logowanie extends Fragment
 {
 //    JSONParser jsonParser = new JSONParser();

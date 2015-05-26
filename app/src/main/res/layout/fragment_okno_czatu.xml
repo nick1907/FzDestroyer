@@ -1,27 +1,56 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context="destroyer.friendzone.com.fzdestroyer.OknoCzatu">
 
+    <!-- obszar rozmowy (czatu) -->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="300sp"
+        android:id="@+id/pole_rozmowy"
+        android:layout_gravity="start" >
+        <ListView
+            android:layout_width="fill_parentt"
+            android:layout_height="wrap_content"
+            android:id="@+id/uzytkownik_czatu"
+            android:focusable="false" >
+            </ListView>
+    </RelativeLayout>
+
+    <!-- przycisk akceptacji znajomosci -->
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/obrazek_akceptacji"
+        android:layout_toLeftOf="@+id/pole_rozmowy"
+        android:layout_toStartOf="@+id/pole_rozmowy" />
+
+    <!-- przycisk odrzucenia znajomosci -->
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/obrazek_odrzucenia"
+        android:layout_toRightOf="@+id/pole_rozmowy"
+        android:layout_toEndOf="@+id/pole_rozmowy" />
+
+    <!-- tekst do wpisania nowej wiadomosci -->
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/nowa_wiadomosc"
+        android:layout_below="@+id/pole_rozmowy"
         android:inputType="text" />
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/uzytkownik_czatu"
-        android:focusable="false" >
-    </ListView>
 
+    <!-- przycisk wyslania nowej wiadomosci -->
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/przycisk_wyslania_wiadomosci"
         android:text="@string/wyslij_wiadomosc"
-        android:layout_gravity="end" />
+        android:layout_below="@+id/pole_rozmowy"
+        android:layout_toRightOf="@+id/nowa_wiadomosc"
+        android:layout_toEndOf="@+id/nowa_wiadomosc" />
 
-</FrameLayout>
+</RelativeLayout>

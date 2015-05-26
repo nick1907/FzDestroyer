@@ -28,4 +28,6 @@
     <string name="zapisz_zmiany">Zapisz zmiany</string>
     <string name="data_urodzenia">Data urodzenia:</string>
     <string name="zasieg">Zasięg:</string>
+    <string name="tak">Tak</string>
+    <string name="nie">Nie</string>
 </resources>
