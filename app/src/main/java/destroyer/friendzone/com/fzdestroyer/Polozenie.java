@@ -65,7 +65,7 @@ public class Polozenie {
         public void onProviderEnabled(String provider) {}
         public void onStatusChanged(String provider, int status, Bundle extras) {}
     };
-
+    //takze ten
     class GetLastLocation extends TimerTask {
         @Override
         public void run() {
