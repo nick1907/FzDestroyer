@@ -9,8 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 public class AdapterWiadomosci extends ArrayAdapter<Wiadomosc>
 {
     Context kontekst;

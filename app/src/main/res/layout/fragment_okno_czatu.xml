@@ -44,11 +44,10 @@
 
 
     <!-- przycisk wyslania nowej wiadomosci -->
-    <Button
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/przycisk_wyslania_wiadomosci"
-        android:text="@string/wyslij_wiadomosc"
         android:layout_below="@+id/pole_rozmowy"
         android:layout_toRightOf="@+id/nowa_wiadomosc"
         android:layout_toEndOf="@+id/nowa_wiadomosc" />
