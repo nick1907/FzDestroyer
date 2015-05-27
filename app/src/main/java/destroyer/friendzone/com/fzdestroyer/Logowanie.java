@@ -104,7 +104,7 @@ public class Logowanie extends Fragment
             {
                 Log.d("test", "Udalo sie odpalic nowa intencje!");
                 zalogowany = true;
-                Intent intent = new Intent(getActivity(), Czat.class);
+                Intent intent = new Intent(getActivity(), MenuActivity.class);
                 startActivity(intent);
             }
 

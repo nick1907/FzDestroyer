@@ -15,8 +15,10 @@
             android:layout_width="170sp"
             android:layout_height="170sp"
             android:text="@string/czat"
+            android:id="@+id/przycisk_czatu"
             android:background="@drawable/czat"/>
         <ImageButton
+            android:id="@+id/przycisk_ustawien"
             android:layout_width="170sp"
             android:layout_height="170sp"
             android:text="@string/ustawienia"
@@ -27,11 +29,13 @@
             android:layout_width="170sp"
             android:layout_height="170sp"
             android:text="@string/pomoc"
+            android:id="@+id/przycisk_pomocy"
             android:background="@drawable/help" />
         <ImageButton
             android:layout_width="170sp"
             android:layout_height="170sp"
             android:text="@string/info"
+            android:id="@+id/przycisk_info"
             android:background="@drawable/info" />
     </TableRow>
 

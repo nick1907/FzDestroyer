@@ -53,7 +53,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/przycisk_wyslania_wiadomosci"
         android:layout_below="@+id/rozmowa"
-        android:onClick="wyslijWiadomosc"
         android:layout_toRightOf="@+id/nowa_wiadomosc"
         android:layout_toEndOf="@+id/nowa_wiadomosc"
         android:background="@drawable/wyslij" />

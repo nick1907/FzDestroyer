@@ -1,10 +1,11 @@
 package destroyer.friendzone.com.fzdestroyer;
 
+import android.app.Activity;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,8 +22,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-
-public class Ustawienia extends ActionBarActivity
+public class Ustawienia extends Activity
 {
     // lista potrzebna do ustawienia spinneru na wybor orientacji seksualnej
     ArrayList<String> orientacja;
@@ -54,9 +54,11 @@ public class Ustawienia extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ustawienia);
 
-        dane = getIntent().getExtras();
-        int profil_ID = dane.getInt("login", 0);
-        String pass = dane.getString("haslo");
+//        dane = getIntent().getExtras();
+//        int profil_ID = dane.getInt("login", 0);
+//        String pass = dane.getString("haslo");
+        String profil_ID = "882998035056017";
+        String pass = "supertajne";
 
         // przypisanie odpowiednich pol tekstowych
         opis_pole = (EditText) findViewById(R.id.pole_opisu);
@@ -197,91 +199,86 @@ public class Ustawienia extends ActionBarActivity
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings)
-        {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     // metoda do aktualizacji danych w bazie danych
     public void zaaktualizujDane(View widok)
     {
-        String opis = opis_pole.getText().toString();
-        int zasieg = 0;
-        if (!zasieg_pole.getText().toString().isEmpty())
-            zasieg = Integer.parseInt(zasieg_pole.getText().toString(), 0);
-        String miejscowosc = miejscowosc_pole.getText().toString();
+        new ZmienUstawienia().execute();
 
-        int profil_ID = dane.getInt("login", 0);
-        String pass = dane.getString("haslo");
+        finish();
+    }
 
-        // utworzenie zapytania do bazy danych i jego wykoanie
-        try
+    class ZmienUstawienia extends AsyncTask<String,String,String>
+    {
+
+        @Override
+        protected String doInBackground(String... params)
         {
-            int rozmiar = 0;
+            String opis = opis_pole.getText().toString();
+            int zasieg = 0;
+            if (!zasieg_pole.getText().toString().isEmpty())
+                zasieg = Integer.parseInt(zasieg_pole.getText().toString(), 0);
+            String miejscowosc = miejscowosc_pole.getText().toString();
 
-            // zapytanie do bazy danych (zmiana danych uzytkownika programu)
-            String data = URLEncoder.encode("login", "UTF-8") + "=" + URLEncoder.encode(Integer.toString(profil_ID), "UTF-8");
-            data += "&" + URLEncoder.encode("haslo", "UTF-8") + "=" + URLEncoder.encode("supertajne", "UTF-8");
-            rozmiar = data.length();
-            if (!opis.isEmpty()) // jesli opis nie jest pusty
-                data += "&" + URLEncoder.encode("opis", "UTF-8") + "=" + URLEncoder.encode(opis, "UTF-8");
-            if (zasieg > 0) // jesli podano zasieg
-                data += "&" + URLEncoder.encode("zasieg", "UTF-8") + "=" + URLEncoder.encode(Integer.toString(zasieg), "UTF-8");
-            if (!miejscowosc.isEmpty()) // jesli podano miejscowosc
-                data += "&" + URLEncoder.encode("miejscowosc", "UTF-8") + "=" + URLEncoder.encode(miejscowosc, "UTF-8");
-            if (!wybrana_orientacja.isEmpty()) // jesli wybrano orientacje
-                data += "&" + URLEncoder.encode("orientacja", "UTF-8") + "=" + URLEncoder.encode(wybrana_orientacja, "UTF-8");
-            if (!wybrany_dzien.isEmpty()) // jesli wybrano dzien miesiaca
-                data += "&" + URLEncoder.encode("dzien_urodzenia", "UTF-8") + "=" + URLEncoder.encode(wybrany_dzien, "UTF-8");
-            if (!wybrany_miesiac.isEmpty()) // jesli wybrano miesiac
-                data += "&" + URLEncoder.encode("miesiac_urodzenia", "UTF-8") + "=" + URLEncoder.encode(wybrany_miesiac, "UTF-8");
-            if (!wybrany_rok.isEmpty()) // jesli wybrano rok
-                data += "&" + URLEncoder.encode("rok_urodzenia", "UTF-8") + "=" + URLEncoder.encode(wybrany_rok, "UTF-8");
+            int profil_ID = dane.getInt("login", 0);
+            String pass = dane.getString("haslo");
 
+            // utworzenie zapytania do bazy danych i jego wykoanie
             try
             {
-                URL url = new URL("http://vigorous-cheetah-65-226242.euw1.nitrousbox.com/update_uzytkownika.php");
+                int rozmiar = 0;
 
-                URLConnection conn = url.openConnection();
-                conn.setDoOutput(true);
-                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                // zapytanie do bazy danych (zmiana danych uzytkownika programu)
+                String data = URLEncoder.encode("login", "UTF-8") + "=" + URLEncoder.encode(Integer.toString(profil_ID), "UTF-8");
+                data += "&" + URLEncoder.encode("haslo", "UTF-8") + "=" + URLEncoder.encode(pass, "UTF-8");
+                rozmiar = data.length();
+                if (!opis.isEmpty()) // jesli opis nie jest pusty
+                    data += "&" + URLEncoder.encode("opis", "UTF-8") + "=" + URLEncoder.encode(opis, "UTF-8");
+                if (zasieg > 0) // jesli podano zasieg
+                    data += "&" + URLEncoder.encode("zasieg", "UTF-8") + "=" + URLEncoder.encode(Integer.toString(zasieg), "UTF-8");
+                if (!miejscowosc.isEmpty()) // jesli podano miejscowosc
+                    data += "&" + URLEncoder.encode("miejscowosc", "UTF-8") + "=" + URLEncoder.encode(miejscowosc, "UTF-8");
+                if (!wybrana_orientacja.isEmpty()) // jesli wybrano orientacje
+                    data += "&" + URLEncoder.encode("orientacja", "UTF-8") + "=" + URLEncoder.encode(wybrana_orientacja, "UTF-8");
+                if (!wybrany_dzien.isEmpty()) // jesli wybrano dzien miesiaca
+                    data += "&" + URLEncoder.encode("dzien_urodzenia", "UTF-8") + "=" + URLEncoder.encode(wybrany_dzien, "UTF-8");
+                if (!wybrany_miesiac.isEmpty()) // jesli wybrano miesiac
+                    data += "&" + URLEncoder.encode("miesiac_urodzenia", "UTF-8") + "=" + URLEncoder.encode(wybrany_miesiac, "UTF-8");
+                if (!wybrany_rok.isEmpty()) // jesli wybrano rok
+                    data += "&" + URLEncoder.encode("rok_urodzenia", "UTF-8") + "=" + URLEncoder.encode(wybrany_rok, "UTF-8");
 
-                // wyslij zapytanie do bazy danych
-                // String text = "";
-                BufferedReader reader;
-                wr.write(data);
-                wr.flush();
+                try
+                {
+                    URL url = new URL("http://vigorous-cheetah-65-226242.euw1.nitrousbox.com/update_uzytkownika.php");
 
-                reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                StringBuilder sb = new StringBuilder();
-                String line;
+                    URLConnection conn = url.openConnection();
+                    conn.setDoOutput(true);
+                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
 
-                // odczytaj odpowiedz serwera
-                while ((line = reader.readLine()) != null)
-                    sb.append(new StringBuilder(line + "\n"));
+                    // wyslij zapytanie do bazy danych
+                    // String text = "";
+                    BufferedReader reader;
+                    wr.write(data);
+                    wr.flush();
 
-                Log.d("wiadomosc", sb.toString());
-            } catch (IOException e)
+                    reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+
+                    // odczytaj odpowiedz serwera
+                    while ((line = reader.readLine()) != null)
+                        sb.append(new StringBuilder(line + "\n"));
+
+                    Log.d("wiadomosc", sb.toString());
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            } catch (UnsupportedEncodingException e)
             {
                 e.printStackTrace();
             }
-        } catch (UnsupportedEncodingException e)
-        {
-            e.printStackTrace();
-        }
 
-        finish();
+            return null;
+        }
     }
 }
