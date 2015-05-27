@@ -6,7 +6,8 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:paddingBottom="@dimen/activity_vertical_margin"
-                tools:context="destroyer.friendzone.com.fzdestroyer.Czat">
+                tools:context="destroyer.friendzone.com.fzdestroyer.Czat"
+                android:background="@drawable/gradient0">
 
     <!-- fragment odpowiadajacy za wyswietlanie paska z wiadomosciami itp. -->
     <fragment

@@ -6,7 +6,8 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:paddingBottom="@dimen/activity_vertical_margin"
-                tools:context="destroyer.friendzone.com.fzdestroyer.Ustawienia">
+                tools:context="destroyer.friendzone.com.fzdestroyer.Ustawienia"
+                android:background="@drawable/gradient9">
 
     <!-- pole na opis o uzytkowniku -->
     <TextView

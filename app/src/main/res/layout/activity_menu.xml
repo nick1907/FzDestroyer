@@ -7,27 +7,32 @@
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 android:gravity="center"
-                tools:context="destroyer.friendzone.com.fzdestroyer.MenuActivity">
+                tools:context="destroyer.friendzone.com.fzdestroyer.MenuActivity"
+                android:background="@drawable/gradient5">
 
     <TableRow>
         <ImageButton
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="@string/czat" />
+            android:layout_width="170sp"
+            android:layout_height="170sp"
+            android:text="@string/czat"
+            android:background="@drawable/czat"/>
         <ImageButton
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="@string/ustawienia" />
+            android:layout_width="170sp"
+            android:layout_height="170sp"
+            android:text="@string/ustawienia"
+            android:background="@drawable/ustawienia_aplikacji" />
     </TableRow>
     <TableRow>
         <ImageButton
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="@string/pomoc" />
+            android:layout_width="170sp"
+            android:layout_height="170sp"
+            android:text="@string/pomoc"
+            android:background="@drawable/help" />
         <ImageButton
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="@string/info" />
+            android:layout_width="170sp"
+            android:layout_height="170sp"
+            android:text="@string/info"
+            android:background="@drawable/info" />
     </TableRow>
 
 </TableLayout>
