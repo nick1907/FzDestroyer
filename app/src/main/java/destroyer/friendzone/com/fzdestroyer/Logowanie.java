@@ -96,12 +96,13 @@ public class Logowanie extends Fragment
         lista_uprawnien.add("read_custom_friendlists");
         lista_uprawnien.add("read_mailbox");
 
-//        loginButton.setReadPermissions(lista_uprawnien);
-//        loginButton.setFragment(this);
+        loginButton.setReadPermissions(lista_uprawnien);
+        loginButton.setFragment(this);
         loginButton.registerCallback(callback, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult)
             {
+                Log.d("test", "Udalo sie odpalic nowa intencje!");
                 zalogowany = true;
                 Intent intent = new Intent(getActivity(), Czat.class);
                 startActivity(intent);

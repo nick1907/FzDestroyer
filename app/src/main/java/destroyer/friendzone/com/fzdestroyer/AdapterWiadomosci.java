@@ -8,14 +8,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import java.util.ArrayList;
 
 public class AdapterWiadomosci extends ArrayAdapter<Wiadomosc>
 {
     Context kontekst;
     int layout_id;
-    Wiadomosc tablica_wiadomosci [];
+    ArrayList<Wiadomosc> tablica_wiadomosci;
 
-    public AdapterWiadomosci(Context context, int layout_id, Wiadomosc tablica[])
+    public AdapterWiadomosci(Context context, int layout_id, ArrayList<Wiadomosc> tablica)
     {
         super(context, layout_id, tablica);
         kontekst = context;
@@ -40,7 +41,7 @@ public class AdapterWiadomosci extends ArrayAdapter<Wiadomosc>
         else
             dodawany = (Item) widok.getTag();
 
-        Wiadomosc nowa = tablica_wiadomosci[position];
+        Wiadomosc nowa = tablica_wiadomosci.get(position);
 
         if (nowa.czy_od_rozmowcy) // jesli to od naszego rozmowcy
         {
