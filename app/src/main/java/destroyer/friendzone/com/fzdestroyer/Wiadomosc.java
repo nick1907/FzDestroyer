@@ -1,8 +1,5 @@
 package destroyer.friendzone.com.fzdestroyer;
 
-/**
- * Created by brzydki on 26/05/15.
- */
 public class Wiadomosc
 {
     String tresc;

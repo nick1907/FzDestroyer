@@ -273,17 +273,24 @@ public class OknoCzatu extends Fragment
                         {
                             if (line.equals("Error"))
                                 break;
+                            ++numer_linii;
+                        }
+                        else if (numer_linii == 1)
+                        {
+                            if (line.equals(profil2))
+                            {
+                                Log.d("od kogo", "rozmowca");
+                                wiadomosc.czy_od_rozmowcy = true;
+                            }
                             else
                             {
-                                if (line.equals(profil2))
-                                    wiadomosc.czy_od_rozmowcy = true;
-                                else
-                                    wiadomosc.czy_od_rozmowcy = false;
-
-                                ++numer_linii;
+                                Log.d("od kogo", "my");
+                                wiadomosc.czy_od_rozmowcy = false;
                             }
+
+                            ++numer_linii;
                         }
-                        else if (numer_linii == 1 || numer_linii == 2)
+                        else if (numer_linii == 2)
                             ++numer_linii;
                         else if (numer_linii == 3)
                         {
