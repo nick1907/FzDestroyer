@@ -27,35 +27,39 @@ public class AdapterWiadomosci extends ArrayAdapter<Wiadomosc>
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-        LayoutInflater layoutInflater;
         View widok = convertView;
         Item dodawany;
 
         if (widok == null)
         {
-            layoutInflater = ((Activity)kontekst).getLayoutInflater();
+            LayoutInflater layoutInflater = ((Activity)kontekst).getLayoutInflater();
             widok = layoutInflater.inflate(layout_id, parent, false);
 
             dodawany = new Item();
+            dodawany.obrazek_rozmowcy = (ImageView) widok.findViewById(R.id.zdjecie_rozmowcy);
+            dodawany.wiadomosc_rozmowcy = (TextView) widok.findViewById(R.id.wiadomosc_rozmowcy);
+            dodawany.nasz_obrazek = (ImageView) widok.findViewById(R.id.nasze_zdjecie);
+            dodawany.nasza_wiadomosc = (TextView) widok.findViewById(R.id.nasza_wiadomosc);
+
+            widok.setTag(dodawany);
         }
         else
             dodawany = (Item) widok.getTag();
 
-        Wiadomosc nowa = tablica_wiadomosci.get(position);
+        if (tablica_wiadomosci.size() > position)
+        {
+            Wiadomosc nowa = tablica_wiadomosci.get(position);
 
-        if (nowa.czy_od_rozmowcy) // jesli to od naszego rozmowcy
-        {
-            dodawany.obrazek_rozmowcy = (ImageView) widok.findViewById(R.id.zdjecie_rozmowcy);
-            dodawany.wiadomosc_rozmowcy = (TextView) widok.findViewById(R.id.wiadomosc_rozmowcy);
-            dodawany.obrazek_rozmowcy.setVisibility(View.VISIBLE);
-            dodawany.wiadomosc_rozmowcy.setVisibility(View.VISIBLE);
-        }
-        else // jesli to od biezacego uzytkownika
-        {
-            dodawany.obrazek_rozmowcy = (ImageView) widok.findViewById(R.id.nasze_zdjecie);
-            dodawany.wiadomosc_rozmowcy = (TextView) widok.findViewById(R.id.nasza_wiadomosc);
-            dodawany.obrazek_rozmowcy.setVisibility(View.VISIBLE);
-            dodawany.wiadomosc_rozmowcy.setVisibility(View.VISIBLE);
+            if (nowa.czy_od_rozmowcy) // jesli to od naszego rozmowcy
+            {
+                dodawany.obrazek_rozmowcy.setImageResource(nowa.zdjecie_rozmowcy);
+                dodawany.wiadomosc_rozmowcy.setText(nowa.tresc);
+            }
+            else // jesli to od biezacego uzytkownika
+            {
+                dodawany.nasz_obrazek.setImageResource(nowa.zdjecie_uzytkownika);
+                dodawany.nasza_wiadomosc.setText(nowa.tresc);
+            }
         }
 
         return widok;
@@ -65,5 +69,7 @@ public class AdapterWiadomosci extends ArrayAdapter<Wiadomosc>
     {
         ImageView obrazek_rozmowcy;
         TextView wiadomosc_rozmowcy;
+        ImageView nasz_obrazek;
+        TextView nasza_wiadomosc;
     }
 }

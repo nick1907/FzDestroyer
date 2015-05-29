@@ -1,8 +1,8 @@
 package destroyer.friendzone.com.fzdestroyer;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -27,12 +27,16 @@ public class Ustawienia extends Activity
     // lista potrzebna do ustawienia spinneru na wybor orientacji seksualnej
     ArrayList<String> orientacja;
 
+    // orientacja seksualna
     Spinner wybor_orientacji;
+    int wybrana_orientacja = -1;
+
+    // data urodzenia
     Spinner wybor_dnia;
     Spinner wybor_miesiaca;
     Spinner wybor_roku;
 
-    String wybrana_orientacja;
+    // przydatne do szukania drugiej "polowki"
     EditText opis_pole; // opis uzytkownika (o sobie)
     EditText zasieg_pole; // zasieg w kilometrach potrzebny do poszukiwan drugiej "polowki"
     EditText miejscowosc_pole; // pole na miejscowosc
@@ -42,9 +46,12 @@ public class Ustawienia extends Activity
     ArrayList<String> miesiace;
     ArrayList<String> lata;
 
+    // Spinnery z data urodzenia
     String wybrany_dzien;
     String wybrany_miesiac;
     String wybrany_rok;
+    String profil_ID;
+    String pass;
 
     Bundle dane;
 
@@ -54,11 +61,12 @@ public class Ustawienia extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ustawienia);
 
+        SharedPreferences settings =getSharedPreferences("PREF", 0);
 //        dane = getIntent().getExtras();
 //        int profil_ID = dane.getInt("login", 0);
 //        String pass = dane.getString("haslo");
-        String profil_ID = "882998035056017";
-        String pass = "supertajne";
+        profil_ID = settings.getString("profil", "");
+        pass = settings.getString("profil", "");
 
         // przypisanie odpowiednich pol tekstowych
         opis_pole = (EditText) findViewById(R.id.pole_opisu);
@@ -72,8 +80,6 @@ public class Ustawienia extends Activity
         orientacja.add("biseksualna");
         orientacja.add("homoseksualna");
 
-        wybrana_orientacja = "";
-
         // dodanie adaptera do spinnera
         ArrayAdapter<String> orientacja_adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, orientacja);
         orientacja_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -83,7 +89,7 @@ public class Ustawienia extends Activity
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                wybrana_orientacja = orientacja.get(position);
+                wybrana_orientacja = position;
             }
 
             @Override
@@ -219,16 +225,13 @@ public class Ustawienia extends Activity
                 zasieg = Integer.parseInt(zasieg_pole.getText().toString(), 0);
             String miejscowosc = miejscowosc_pole.getText().toString();
 
-            int profil_ID = dane.getInt("login", 0);
-            String pass = dane.getString("haslo");
-
             // utworzenie zapytania do bazy danych i jego wykoanie
             try
             {
                 int rozmiar = 0;
 
                 // zapytanie do bazy danych (zmiana danych uzytkownika programu)
-                String data = URLEncoder.encode("login", "UTF-8") + "=" + URLEncoder.encode(Integer.toString(profil_ID), "UTF-8");
+                String data = URLEncoder.encode("login", "UTF-8") + "=" + URLEncoder.encode(profil_ID, "UTF-8");
                 data += "&" + URLEncoder.encode("haslo", "UTF-8") + "=" + URLEncoder.encode(pass, "UTF-8");
                 rozmiar = data.length();
                 if (!opis.isEmpty()) // jesli opis nie jest pusty
@@ -237,8 +240,8 @@ public class Ustawienia extends Activity
                     data += "&" + URLEncoder.encode("zasieg", "UTF-8") + "=" + URLEncoder.encode(Integer.toString(zasieg), "UTF-8");
                 if (!miejscowosc.isEmpty()) // jesli podano miejscowosc
                     data += "&" + URLEncoder.encode("miejscowosc", "UTF-8") + "=" + URLEncoder.encode(miejscowosc, "UTF-8");
-                if (!wybrana_orientacja.isEmpty()) // jesli wybrano orientacje
-                    data += "&" + URLEncoder.encode("orientacja", "UTF-8") + "=" + URLEncoder.encode(wybrana_orientacja, "UTF-8");
+                if (wybrana_orientacja > -1) // jesli wybrano orientacje
+                    data += "&" + URLEncoder.encode("orientacja", "UTF-8") + "=" + URLEncoder.encode(Integer.toString(wybrana_orientacja), "UTF-8");
                 if (!wybrany_dzien.isEmpty()) // jesli wybrano dzien miesiaca
                     data += "&" + URLEncoder.encode("dzien_urodzenia", "UTF-8") + "=" + URLEncoder.encode(wybrany_dzien, "UTF-8");
                 if (!wybrany_miesiac.isEmpty()) // jesli wybrano miesiac
@@ -246,34 +249,37 @@ public class Ustawienia extends Activity
                 if (!wybrany_rok.isEmpty()) // jesli wybrano rok
                     data += "&" + URLEncoder.encode("rok_urodzenia", "UTF-8") + "=" + URLEncoder.encode(wybrany_rok, "UTF-8");
 
-                try
+                if (rozmiar != data.length())
                 {
-                    URL url = new URL("http://vigorous-cheetah-65-226242.euw1.nitrousbox.com/update_uzytkownika.php");
+                    try
+                    {
+                        URL url = new URL("http://vigorous-cheetah-65-226242.euw1.nitrousbox.com/update_uzytkownika.php");
 
-                    URLConnection conn = url.openConnection();
-                    conn.setDoOutput(true);
-                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                        URLConnection conn = url.openConnection();
+                        conn.setDoOutput(true);
+                        OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
 
-                    // wyslij zapytanie do bazy danych
-                    // String text = "";
-                    BufferedReader reader;
-                    wr.write(data);
-                    wr.flush();
+                        BufferedReader reader;
+                        wr.write(data);
+                        wr.flush();
 
-                    reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    StringBuilder sb = new StringBuilder();
-                    String line;
+                        reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                        StringBuilder sb = new StringBuilder();
+                        String line;
 
-                    // odczytaj odpowiedz serwera
-                    while ((line = reader.readLine()) != null)
-                        sb.append(new StringBuilder(line + "\n"));
+                        // odczytaj odpowiedz serwera
+                        while ((line = reader.readLine()) != null)
+                            sb.append(new StringBuilder(line + "\n"));
 
-                    Log.d("wiadomosc", sb.toString());
-                } catch (IOException e)
-                {
-                    e.printStackTrace();
+                        Log.d("wiadomosc", sb.toString());
+                    }
+                    catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
-            } catch (UnsupportedEncodingException e)
+            }
+            catch (UnsupportedEncodingException e)
             {
                 e.printStackTrace();
             }

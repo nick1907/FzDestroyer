@@ -1,6 +1,7 @@
 package destroyer.friendzone.com.fzdestroyer;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -32,13 +35,14 @@ public class OknoCzatu extends Fragment
     AdapterWiadomosci adapterWiadomosci;
     Bundle dane;
     Handler handlerPobierania;
+    Handler handlerWyslania;
     ImageButton przycisk_wyslania;
     EditText pole_tekstowe;
-    boolean wyslano;
+    String profil1;
+    String profil2;
 
     public OknoCzatu()
     {
-        // Required empty public constructor
     }
 
     @Override
@@ -53,7 +57,15 @@ public class OknoCzatu extends Fragment
     {
         View widok = inflater.inflate(R.layout.fragment_okno_czatu, container, false);
 
+        SharedPreferences settings = getActivity().getSharedPreferences("PREF", 0);
+
         dane = getActivity().getIntent().getExtras();
+
+        profil1 = settings.getString("profil", "");
+        Log.d("profil_nadawcy", profil1);
+        profil2 = dane.getString("profil_odbiorcy");
+
+        Log.d("profil_odbiorcy", profil2);
 
         aktywnosc = getActivity();
         elementy = new ArrayList<>();
@@ -62,6 +74,7 @@ public class OknoCzatu extends Fragment
 
         lista.setAdapter(adapterWiadomosci);
 
+        // odswieza wyglad listy
         handlerPobierania = new Handler()
         {
             @Override
@@ -69,13 +82,29 @@ public class OknoCzatu extends Fragment
             {
                 super.handleMessage(msg);
 
-                elementy.add((Wiadomosc)msg.obj);
-                Log.d("handle_odpowiedz: ", ((Wiadomosc) msg.obj).tresc);
-                adapterWiadomosci.notifyDataSetChanged();
+                if (elementy != null)
+                {
+                    adapterWiadomosci = new AdapterWiadomosci(getActivity(), R.layout.wiadomosc_czatu, elementy);
+                    lista.setAdapter(adapterWiadomosci);
+                    adapterWiadomosci.notifyDataSetChanged();
+                }
             }
         };
 
-        new Thread(new PobieranieWiadomosci());
+        // ustawia pole do wpisywania na puste
+        handlerWyslania = new Handler()
+        {
+            @Override
+            public void handleMessage(Message msg)
+            {
+                super.handleMessage(msg);
+
+                pole_tekstowe.setText("");
+            }
+        };
+
+
+        new Thread(new PobieranieWiadomosci()).start();
         pole_tekstowe = (EditText) widok.findViewById(R.id.nowa_wiadomosc);
 
         // dodanie sluchacza do przycisku wyslania wiadomosci
@@ -85,11 +114,7 @@ public class OknoCzatu extends Fragment
             @Override
             public void onClick(View v)
             {
-                wyslano = false;
                 new WyslijWiadomosc().execute();
-
-                if (wyslano)
-                    pole_tekstowe.setText("");
             }
         });
 
@@ -97,22 +122,31 @@ public class OknoCzatu extends Fragment
         return widok;
     }
 
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        handlerPobierania = null;
+        handlerWyslania = null;
+        lista = null;
+        aktywnosc = null;
+    }
+
+    public void odswierzListe()
+    {
+        adapterWiadomosci.notifyDataSetChanged();
+    }
+
     class WyslijWiadomosc extends AsyncTask<String,String,String>
     {
-
         @Override
         protected String doInBackground(String ... params)
         {
-
-//                Toast.makeText(getActivity(), "wysylam dane", Toast.LENGTH_SHORT).show();
             String wczytany_tekst = pole_tekstowe.getText().toString();
 
             //jesli podano jakas tresc
             if (wczytany_tekst != null && !wczytany_tekst.isEmpty())
             {
-                String profil1 = "882998035056017"; //dane.getString("profil1");
-                String profil2 = "900358920032103"; //dane.getString("profil2");
-
                 try
                 {
                     // zapytanie do bazy danych (utworzenie nowego uzytkownika programu)
@@ -122,7 +156,7 @@ public class OknoCzatu extends Fragment
 
                     try
                     {
-                        URL url = new URL("http://vigorous-cheetah-65-226242.euw1.nitrousbox.com/wstaw_wiadomosc_rev2.php");
+                        URL url = new URL("http://vigorous-cheetah-65-226242.euw1.nitrousbox.com/wstaw_wiadomosc_rev3.php");
 
                         URLConnection conn = url.openConnection();
                         conn.setDoOutput(true);
@@ -135,15 +169,12 @@ public class OknoCzatu extends Fragment
                         reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                         StringBuilder sb = new StringBuilder();
                         String line;
-                        int numer_linii = 0;
-                        Wiadomosc wiadomosc = new Wiadomosc();
 
                         // odczytaj odpowiezdz serwera
                         while ((line = reader.readLine()) != null)
                         {
-                            if (line.equals("OK"))
-                                wyslano = true;
-                            Log.d("odpowiedz_serwera:", line);
+                            if (line.equals("OK") && handlerWyslania != null)
+                                handlerWyslania.sendMessage(new Message());
                         }
 
                         reader.close();
@@ -164,6 +195,16 @@ public class OknoCzatu extends Fragment
         }
     }
 
+    // funkcja odwraca liste
+    private void odwrocListe()
+    {
+        ArrayList<Wiadomosc> temp = new ArrayList<>();
+        for (int i = elementy.size() - 1; i >= 0; --i)
+            temp.add(elementy.get(i));
+
+        elementy = temp;
+    }
+
     class PobieranieWiadomosci implements Runnable
     {
         @Override
@@ -171,16 +212,25 @@ public class OknoCzatu extends Fragment
         {
             String ostatnia_wiadomosc = "";
 
-            do
+            while (!Thread.interrupted())
             {
                 new PobierzWiadomosc().execute();
-            } while (1 == 1);
+
+                try
+                {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+
+                elementy.clear();
+            }
         }
     }
 
     class PobierzWiadomosc extends AsyncTask<String, String, String>
     {
-
         @Override
         protected String doInBackground(String... params)
         {
@@ -189,13 +239,15 @@ public class OknoCzatu extends Fragment
 
             try
             {
+                Log.d("doInBackground", "jestem w srodku");
                 // zapytanie do bazy danych (utworzenie nowego uzytkownika programu)
                 String data = URLEncoder.encode("login_nadawcy", "UTF-8") + "=" + URLEncoder.encode(profil1, "UTF-8");
                 data += "&" + URLEncoder.encode("login_odbiorcy", "UTF-8") + "=" + URLEncoder.encode(profil2, "UTF-8");
+                data += "&" + URLEncoder.encode("ilosc_wiadomosci", "UTF-8") + "=" + URLEncoder.encode("5", "UTF-8");
 
                 try
                 {
-                    URL url = new URL("http://vigorous-cheetah-65-226242.euw1.nitrousbox.com/odczytaj_wiadomosc.php");
+                    URL url = new URL("http://vigorous-cheetah-65-226242.euw1.nitrousbox.com/odczytaj_wiadomosc2.php");
 
                     URLConnection conn = url.openConnection();
                     conn.setDoOutput(true);
@@ -210,18 +262,20 @@ public class OknoCzatu extends Fragment
                     String line;
                     int numer_linii = 0;
                     Wiadomosc wiadomosc = new Wiadomosc();
+                    wiadomosc.tresc = "";
+                    wiadomosc.zdjecie_uzytkownika = R.drawable.gradient12;
+                    wiadomosc.zdjecie_rozmowcy = R.drawable.gradient15;
 
                     // odczytaj odpowiedz serwera
                     while ((line = reader.readLine()) != null)
                     {
-                        Log.d("serwer_odeslal:", line);
                         if (numer_linii == 0)
                         {
                             if (line.equals("Error"))
                                 break;
                             else
                             {
-                                if (line.equals(profil1))
+                                if (line.equals(profil2))
                                     wiadomosc.czy_od_rozmowcy = true;
                                 else
                                     wiadomosc.czy_od_rozmowcy = false;
@@ -229,27 +283,34 @@ public class OknoCzatu extends Fragment
                                 ++numer_linii;
                             }
                         }
-                        else if (numer_linii == 2)
+                        else if (numer_linii == 1 || numer_linii == 2)
+                            ++numer_linii;
+                        else if (numer_linii == 3)
                         {
+                            wiadomosc.tresc = line;
                             ++numer_linii;
                         }
-                        //else if (numer_linii == 3)
-                        //{
-                            //ostatnia_wiadomosc = ostatnia_wiadomosc.concat(line);
-                    //  }
-                    //   sb.append(new StringBuilder(line + "\n"));
+
+                        if (numer_linii == 4)
+                        {
+                            elementy.add(wiadomosc);
+                            wiadomosc = new Wiadomosc();
+
+                            wiadomosc.tresc = "";
+                            wiadomosc.zdjecie_uzytkownika = R.drawable.gradient12;
+                            wiadomosc.zdjecie_rozmowcy = R.drawable.gradient15;
+
+                            numer_linii = 0;
+                        }
                     }
 
-                    if (line != null && line.equals("Error"))
+                    if (elementy.size() > 0)
                     {
-                        // wiadomosc.tresc = ostatnia_wiadomosc;
-                        // elementy.add(wiadomosc);
-                        // adapterWiadomosci.notifyDataSetChanged();
+                        // odswierz liste
+                        odwrocListe();
 
-                        Message message = new Message();
-                        message.obj = wiadomosc;
-
-                        handlerPobierania.sendMessage(message);
+                        if (handlerPobierania != null)
+                            handlerPobierania.sendMessage(new Message());
                     }
                 }
                 catch (IOException e)

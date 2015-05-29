@@ -1,10 +1,13 @@
 package destroyer.friendzone.com.fzdestroyer;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -23,19 +26,31 @@ public class MainActivity extends FragmentActivity
         // inicjalizacja FACEBOOK API
         FacebookSdk.sdkInitialize(this);
 
+        boolean zalogowany;
         // tworzenie w pamieci urzadzenia ustawien programu
-//        SharedPreferences settings =getSharedPreferences("PREF", 0);
+        SharedPreferences settings =getSharedPreferences("PREF", 0);
+        zalogowany = settings.getBoolean("zalogowany", false);
+        String temp = settings.getString("profil", "null");
+        Log.d("z maina", temp);
 
-        callback = CallbackManager.Factory.create();
+        if (!zalogowany)
+        {
+            callback = CallbackManager.Factory.create();
 
-        setContentView(R.layout.activity_main);
+            setContentView(R.layout.activity_main);
 
-        // tworzenie nowego fragmentu (fragmentu logowania)
-        FragmentManager fm = getSupportFragmentManager();
-        logowanie = (Logowanie) fm.findFragmentById(R.id.logowanie_fragment);
+            // tworzenie nowego fragmentu (fragmentu logowania)
+            FragmentManager fm = getSupportFragmentManager();
+            logowanie = (Logowanie) fm.findFragmentById(R.id.logowanie_fragment);
 
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.commit();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.commit();
+        }
+        else
+        {
+            Intent intent = new Intent(this, MenuActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
