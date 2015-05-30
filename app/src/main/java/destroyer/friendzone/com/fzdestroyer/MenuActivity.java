@@ -12,6 +12,8 @@ public class MenuActivity extends Activity
 {
     ImageButton przycisk_czatu;
     ImageButton przycisk_ustawien;
+    ImageButton przycisk_pomocy;
+    ImageButton przycisk_info;
     Intent intent;
     Activity aktywnosc = this;
 
@@ -22,11 +24,9 @@ public class MenuActivity extends Activity
         setContentView(R.layout.activity_menu);
 
         przycisk_czatu = (ImageButton) findViewById(R.id.przycisk_czatu);
-        przycisk_czatu.setOnClickListener(new View.OnClickListener()
-        {
+        przycisk_czatu.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 intent = new Intent(aktywnosc, Czat.class);
                 SharedPreferences settings = getSharedPreferences("PREF", 0);
                 if (settings.getString("profil", "").equals("882998035056017"))
@@ -47,5 +47,25 @@ public class MenuActivity extends Activity
                 startActivity(intent);
             }
         });
+        przycisk_pomocy = (ImageButton) findViewById(R.id.przycisk_pomocy);
+        przycisk_pomocy.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(aktywnosc, Pomoc.class);
+                startActivity(intent);
+            }
+        });
+
+        przycisk_info = (ImageButton) findViewById(R.id.przycisk_info);
+        przycisk_info.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(aktywnosc, Infos.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }

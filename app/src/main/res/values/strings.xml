@@ -30,4 +30,26 @@
     <string name="zasieg">Zasięg:</string>
     <string name="tak">Tak</string>
     <string name="nie">Nie</string>
+    <string name="title_activity_infos">InfosActivity</string>
+    <string-array name="tutajinformacje">
+        <item>Aplikacja do chatowania</item>
+        <item>Wersja 0.0.0.1</item>
+        <item>Zapełnianie</item>
+        <item>Listy</item>
+        <item>w</item>
+        <item>celach</item>
+        <item>chyba</item>
+        <item>testowych</item>
+        <item>ale</item>
+        <item>to</item>
+        <item>bez</item>
+        <item>sensu</item>
+        <item>.</item>
+    </string-array>
+    <string-array name="tutajpomusz">
+        <item>Pomocy nie ma</item>
+        <item>Bo i po co</item>
+        <item>Hahahhahahahah</item>
+        <item>Umrzyj!</item>
+    </string-array>
 </resources>

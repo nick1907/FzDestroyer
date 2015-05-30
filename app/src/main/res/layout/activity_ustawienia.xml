@@ -17,12 +17,14 @@
         android:id="@+id/opis_tekst" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/ovalborder"
         android:inputType="textAutoComplete|textAutoCorrect"
-        android:layout_toRightOf="@+id/opis_tekst"
-        android:layout_toEndOf="@+id/opis_tekst"
-        android:id="@+id/pole_opisu" />
+        android:id="@+id/pole_opisu"
+        android:layout_below="@+id/opis_tekst"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <!-- wybor orientacji seksualnej -->
     <TextView
@@ -30,14 +32,16 @@
         android:layout_height="wrap_content"
         android:text="@string/orientacja"
         android:id="@+id/orientacja_tekst"
-        android:layout_below="@+id/opis_tekst" />
+        android:layout_below="@+id/pole_opisu"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/wybor_orientacji"
-        android:layout_below="@+id/pole_opisu"
-        android:layout_toRightOf="@+id/orientacja_tekst"
-        android:layout_toEndOf="@+id/orientacja_tekst" />
+        android:layout_below="@+id/orientacja_tekst"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <!-- wybor daty urodzenia jesli jej nie podano -->
     <TextView
@@ -74,38 +78,42 @@
         android:id="@+id/zasieg_tekst"
         android:text="@string/zasieg" />
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/wybor_dnia"
-        android:layout_toRightOf="@+id/zasieg_tekst"
-        android:layout_toEndOf="@+id/zasieg_tekst"
+        android:background="@drawable/ovalborder"
         android:inputType="numberDecimal"
-        android:id="@+id/pole_zasiegu" />
+        android:id="@+id/pole_zasiegu"
+        android:layout_below="@+id/zasieg_tekst"
+        android:layout_alignRight="@+id/wybor_miesiaca"
+        android:layout_alignEnd="@+id/wybor_miesiaca" />
 
     <!-- pole na miejscowosc uzytkownika programu -->
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/zasieg_tekst"
         android:id="@+id/miejscowosc_tekst"
-        android:text="@string/miejscowosc" />
+        android:text="@string/miejscowosc"
+        android:layout_below="@+id/pole_zasiegu"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/zasieg_tekst"
-        android:layout_toRightOf="@+id/miejscowosc_tekst"
-        android:layout_toEndOf="@+id/miejscowosc_tekst"
+        android:background="@drawable/ovalborder"
         android:id="@+id/miejscowosc_pole"
-        android:inputType="textAutoCorrect|textAutoComplete" />
+        android:inputType="textAutoCorrect|textAutoComplete"
+        android:layout_below="@+id/miejscowosc_tekst"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <!-- przycisk do zatwierdzenia zmian odpowiednich pol profilu -->
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/miejscowosc_tekst"
-        android:layout_toRightOf="@+id/miejscowosc_tekst"
-        android:layout_toEndOf="@+id/miejscowosc_tekst"
         android:text="@string/zapisz_zmiany"
         android:id="@+id/zapisz_zmiany"
-        android:onClick="zaaktualizujDane"/>
+        android:onClick="zaaktualizujDane"
+        android:layout_below="@+id/miejscowosc_pole"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="37dp" />
 </RelativeLayout>

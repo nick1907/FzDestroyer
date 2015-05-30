@@ -53,6 +53,18 @@
             android:name=".Ustawienia"
             android:label="@string/title_activity_ustawienia" >
         </activity>
+        <activity
+            android:name="Infos"
+            android:label="Informacje"
+            android:theme="@android:style/Theme.Black">
+        </activity>
+        <activity
+            android:name="Pomoc"
+            android:label="Pomoc"
+            android:theme="@android:style/Theme.Black">
+        </activity>
+
+
     </application>
 
 </manifest>
