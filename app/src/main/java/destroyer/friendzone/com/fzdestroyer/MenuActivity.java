@@ -1,14 +1,20 @@
 package destroyer.friendzone.com.fzdestroyer;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 
-public class MenuActivity extends Activity
+public class MenuActivity extends ActionBarActivity
 {
     ImageButton przycisk_czatu;
     ImageButton przycisk_ustawien;
@@ -36,7 +42,7 @@ public class MenuActivity extends Activity
                 startActivity(intent);
             }
         });
-
+        //fukcjonalnosc z ikonek, przeniesiona do ActionBar KZ
         przycisk_ustawien = (ImageButton) findViewById(R.id.przycisk_ustawien);
         przycisk_ustawien.setOnClickListener(new View.OnClickListener()
         {
@@ -58,8 +64,7 @@ public class MenuActivity extends Activity
         });
 
         przycisk_info = (ImageButton) findViewById(R.id.przycisk_info);
-        przycisk_info.setOnClickListener(new View.OnClickListener()
-        {
+        przycisk_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent = new Intent(aktywnosc, Infos.class);
@@ -67,5 +72,35 @@ public class MenuActivity extends Activity
             }
         });
 
+
+
     }
+    //metoda odpowiedzialna za wywolanie actionBar KZ
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menuvalues, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    //metoda odpowiedzialna za wywolanie intencji z actionBar'a
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_help:
+                intent = new Intent(aktywnosc, Pomoc.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_settings:
+                intent = new Intent(aktywnosc, Ustawienia.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_info:
+                intent = new Intent(aktywnosc, Infos.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 }
+
