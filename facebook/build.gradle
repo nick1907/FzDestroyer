@@ -12,12 +12,12 @@ dependencies {
 }
 
 android {
-    compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
-    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
+    compileSdkVersion 21
+    buildToolsVersion '21.1.1'
 
     defaultConfig {
-        minSdkVersion Integer.parseInt(project.ANDROID_BUILD_MIN_SDK_VERSION)
-        targetSdkVersion Integer.parseInt(project.ANDROID_BUILD_TARGET_SDK_VERSION)
+        minSdkVersion 14
+        targetSdkVersion 21
     }
 
     lintOptions {
@@ -41,9 +41,9 @@ def ossrhUsername = hasProperty('NEXUS_USERNAME') ? NEXUS_USERNAME : ""
 def ossrhPassword = hasProperty('NEXUS_PASSWORD') ? NEXUS_PASSWORD : ""
 
 task setVersion {
-    // The version will be derived from source
+    // The version will be derived from source/home/ehhh/StudioProjects/FzDestroyer1/facebook/facebook-android-sdk-4.1.2/facebook/src/com/facebook
     project.version = null
-    def sdkVersionFile = file('src/com/facebook/FacebookSdkVersion.java')
+    def sdkVersionFile = file('/home/ehhh/StudioProjects/FzDestroyer1/facebook/facebook-android-sdk-4.1.2/facebook/src/com/facebook/FacebookSdkVersion.java')
     sdkVersionFile.eachLine{
         def matcher = (it =~ /(?:.*BUILD = \")(.*)(?:\".*)/)
         if (matcher.matches()) {
